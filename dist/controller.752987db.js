@@ -371,7 +371,16 @@ const timeout = function (s) {
 // https://forkify-api.herokuapp.com/v2
 
 ///////////////////////////////////////
-console.log("test");
+
+const showRecipe = async function () {
+  try {
+    const res = await fetch("https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bc886");
+    const data = res.json();
+    console.log(data);
+  } catch (err) {
+    alert(err);
+  }
+};
 },{}]},{},["f2c8d4a80f79381e391d9eaf3424179c","175e469a7ea7db1c8c0744d04372621f"], null)
 
 //# sourceMappingURL=controller.752987db.js.map
