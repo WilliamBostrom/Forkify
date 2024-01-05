@@ -1,0 +1,1 @@
+require('./bundle-manifest').register(JSON.parse("{\"726231d138bdc871\":\"controller.HASH_REF_0c48a71647bcc7ec726231d138bdc871.js\",\"2ac6eae6cc983e46\":\"icons.HASH_REF_9c0b9660f2fa01862ac6eae6cc983e46.svg\"}"));

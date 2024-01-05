@@ -1,0 +1,70 @@
+"use strict";
+
+require("core-js/modules/web.immediate.js");
+var model = _interopRequireWildcard(require("./model.js"));
+var _recipeView = _interopRequireDefault(require("./views/recipeView.js"));
+var _searchView = _interopRequireDefault(require("./views/searchView.js"));
+var _resultsView = _interopRequireDefault(require("./views/resultsView.js"));
+var _paginationView = _interopRequireDefault(require("./views/paginationView.js"));
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function (e) { return e ? t : r; })(e); }
+function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != typeof e && "function" != typeof e) return { default: e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && Object.prototype.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n.default = e, t && t.set(e, n), n; }
+// const recipeContainer = document.querySelector(".recipe");
+
+// https://forkify-api.herokuapp.com/v2
+
+///////////////////////////////////////
+
+const controlRecipes = async function () {
+  try {
+    const id = window.location.hash.slice(1);
+    if (!id) return;
+    _recipeView.default.renderSpinner();
+
+    // Laddar recept
+    await model.loadRecipe(id);
+
+    // rendering recipes
+    _recipeView.default.render(model.state.recipe);
+  } catch (err) {
+    _recipeView.default.renderError();
+  }
+};
+// controlRecipes();
+
+const controlSearchResults = async function () {
+  try {
+    _resultsView.default.renderSpinner();
+    const query = _searchView.default.getQuery();
+    if (!query) return;
+    await model.loadSearchResults(query);
+    _resultsView.default.render(model.getSearchResultsPage());
+
+    // render pagination buttons
+    _paginationView.default.render(model.state.search);
+  } catch (err) {
+    console.log(err);
+  }
+};
+const controlPagination = function (goToPage) {
+  // rende New results
+  _resultsView.default.render(model.getSearchResultsPage(goToPage));
+
+  // render New pagination buttons
+  _paginationView.default.render(model.state.search);
+};
+const controlServings = function () {
+  // update the recipe serving
+  model.updateServings(6);
+
+  //update the view
+  _recipeView.default.render(model.state.recipe);
+};
+const init = function () {
+  _recipeView.default.addHandlerRender(controlRecipes);
+  _recipeView.default.addHandlerUpdateServings;
+  _searchView.default.addHandlerSearch(controlSearchResults);
+  _paginationView.default.addHadlerClick(controlPagination);
+  // controlServings();
+};
+init();
